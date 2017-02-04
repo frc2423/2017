@@ -25,7 +25,14 @@ class MyRobot(wpilib.IterativeRobot):
         self.joystick1 = wpilib.Joystick(1)
         joystick = wpilib.Joystick(2)
         self.gyro = wpilib.AnalogGyro(0)
-		self.pid = PIDController(Kp, Ki, Kd, self.gyro.getAngle(), self.robotdrive)
+		self.pid = PIDController(.1, 0, 0, self.gyro, self.robotdrive)
+        self.pid.setContinuous()
+        self.pid.setInputRange(-180, 180)
+        self.pid.setOutputRange(-1, 1)
+        self.pid.setSetpoint(0)
+
+    def pid_output(self, output):
+        self.robotdrive.arcadeDrive(.3, output)
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
@@ -34,33 +41,14 @@ class MyRobot(wpilib.IterativeRobot):
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-
+        pass
 
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        rotation = 0
+        pass
         
-        if self.joystick1.getRawButton(4) is True:
-            rotation = -.5
-        elif self.joystick1.getRawButton(5) is True:
-            rotation = .5
-        else:
-            rotation = 0
-            
-        
-        self.robotDrive.mecanumDrive_Cartesian( 
-            self.joystick1.getX(), 
-            self.joystick1.getY(), 
-            rotation, 
-            self.gyro.getAngle()
-            )
-        
-        
-        
-    def testPeriodic(self):
-        """This function is called periodically during test mode."""
-        
+
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)

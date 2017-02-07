@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+
+<!-- This starts the NetworkTables websocket, it can be accessed from multiple
+     pages simultaneously -->
+<script src="/networktables/networktables.js"></script>
+
+<!-- Obviously, you will want to copy this file locally in a real 
+     dashboard, as the Driver Station won't have internet access -->
+<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+
+<!-- uncomment this is you want to use included utility functions that
+     implement common functionality that you might find useful. Requires
+     that d3.js and jQuery are included first -->
+<!-- <script src="/networktables/utils.js"></script> -->
+
+<p class="speed">speed: <span>0</span></p>
+<button class="faster">FASTER!!</button>
+<button class="slower">SLOWER!!</button>
+
+
+
+<script type="text/javascript">
+var speed = 0;
+
+$('.faster').on('click', function() {
+  speed = Math.min(1, speed + .1);
+  $('.speed span').text(speed);
+  NetworkTables.putValue('/SmartDashboard/speed', speed);
+});
+
+$('.slower').on('click', function() {
+  speed = Math.max(0, speed - .1);
+  $('.speed span').text(speed);
+  NetworkTables.putValue('/SmartDashboard/speed', speed);
+});
+
+</script>
+
+</body>
+</html>

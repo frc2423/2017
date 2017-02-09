@@ -4,7 +4,7 @@
     that you can use to connect your HTML/Javascript dashboard code to
     your robot via NetworkTables.
     Run this application with python, then you can open your browser to 
-    http://localhost:8888/ to view the index.html page.
+    http://localhost:8888/ to view the ui.html page.
 '''
 
 from os.path import abspath, dirname, exists, join
@@ -68,18 +68,18 @@ if __name__ == '__main__':
     
     # setup tornado application with static handler + networktables support
     www_dir = abspath(join(dirname(__file__), 'www'))
-    index_html = join(www_dir, 'index.html')
+    ui_html = join(www_dir, 'ui.html')
 
     if not exists(www_dir):
         logger.error("Directory '%s' does not exist!", www_dir)
         exit(1)
 
-    if not exists(index_html):
-        logger.warn("%s not found" % index_html)
+    if not exists(ui_html):
+        logger.warn("%s not found" % ui_html)
     
     app = tornado.web.Application(
         get_handlers() + [
-            (r"/()", NonCachingStaticFileHandler, {"path": index_html}),
+            (r"/()", NonCachingStaticFileHandler, {"path": ui_html}),
             (r"/(.*)", NonCachingStaticFileHandler, {"path": www_dir})
         ]
     )

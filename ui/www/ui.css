@@ -1,5 +1,5 @@
 body {
-	background-color: rgb(0,200,50);
+	background-image: url("assets/background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -11,5 +11,46 @@ body {
 }
 
 #cam_1 {
-		bor
+	border-style: solid;
+	border-width: 3px;
+	position: absolute;
+	top: 5%;
+	left: 5%;
 }
+
+#cam_2 {
+	border-style: solid;
+	border-width: 3px;
+	position: absolute;
+	top: 5%;
+	right:5%;
+}
+
+.climb {
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 7%;
+	right: 10%;
+	height: 150px;
+	width: 150px;
+	-webkit-appearance: none;
+	opacity: 1;
+}
+
+.climbing {
+	background-image: url("assets/button_pressed_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 7%;
+	right: 10%;
+	height: 150px;
+	width: 150px;
+	-webkit-appearance: none;
+	opacity: 1;
+}
+
+
+
+
+

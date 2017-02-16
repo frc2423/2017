@@ -1,5 +1,5 @@
 body {
-	background-image: url("assets/background.jpg");
+	background-image: url("assets/background_alt.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -8,11 +8,13 @@ body {
 	position: absolute;
 	left: 40%;
 	top: 50%;
+	color: white;
 }
 
 #cam_1 {
 	border-style: solid;
-	border-width: 3px;
+	border-width: 4px;
+	border-color: rgb(150,150,0);
 	position: absolute;
 	top: 5%;
 	left: 5%;
@@ -20,7 +22,8 @@ body {
 
 #cam_2 {
 	border-style: solid;
-	border-width: 3px;
+	border-width: 4px;
+	border-color: rgb(150,150,0);
 	position: absolute;
 	top: 5%;
 	right:5%;
@@ -50,7 +53,113 @@ body {
 	opacity: 1;
 }
 
+.airship {
+	fill: gray;
+	position: absolute;
+	left: 8%;
+	bottom: 2%;
+}
 
+.rope_right{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 21%;
+	left: 29%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
 
+.rope_left{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 21%;
+	left: 5%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
 
+.rope_top{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 40%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
 
+.rope_bottom{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 1%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_right.pressed{
+	background-image: url("assets/button_pressed_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 21%;
+	left: 29%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_left.pressed{
+	background-image: url("assets/button_pressed_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 21%;
+	left: 5%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_top.pressed{
+	background-image: url("assets/button_pressed_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 40%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_bottom.pressed{
+	background-image: url("assets/button_pressed_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 1%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}

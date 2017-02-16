@@ -4,31 +4,42 @@
 	<title>UI Jam</title>
 	<link rel="stylesheet" href="ui.css"/>
 	<script src="/scripts/jquery-2.2.2.min.js"></script>
-	<script src="ui.js"></script>
+	<script src="/networktables/networktables.js"></script>
 </head>
 <body>
 	<div>
-		<svg height="300" width="400" id=cam_1>
-		
+		<svg height="300" width="400" id="cam_1">
+			<img height="300" width="400" id="cam_1" src="http://roborio-2423-frc:1181/stream.mjpg"/>
 		</svg>
 	</div>
 	
-		<div>
-		<svg height="300" width="400" id=cam_2>
-		
+	<div>
+		<svg height="300" width="400" id="cam_2">
 		</svg>
 	</div>
 	
-	<div id=auto_chooser>
-	Autonomous Chooser
+	<div id="auto_chooser">
 	<form>
 		<input type="radio"	name="auto" checked>Drive straight</input>
 		<input type="radio" name="auto">drive into a wall and die</input>
 	</form>
 	</div>
+	
 	<div>
-	<input class="climb" type="checkbox"></input>
+		<input class="climb" name="climb" type="checkbox"></input>
+	</div>
+	
+	<div>
+		<svg class="airship" height="300" width="300">
+		<polygon points="20,150 100,50 200,50 280,150 200,250 100,250" />
+		<text x="90" y="150" font-size="30" fill="rgb(255,215,32)">Alignment</text>
+		</svg>
+		<input type="button" name="ropel" class="rope_left"/>
+		<input type="button" name="roper" class="rope_right"/>
+		<input type="button" name="ropet" class="rope_top"/>
+		<input type="button" name="ropeb" class="rope_bottom"/>
 	</div>
 	
 </body>
+<script src="ui.js"></script>
 </html>

@@ -51,7 +51,12 @@ class MyRobot(wpilib.IterativeRobot):
         wpilib.CameraServer.launch('vision.py:main')
 
     def pid_source(self):
-        return self.gyro.getAngle()
+        angle = self.gyro.getAngle() % 360
+        if angle < -180:
+            angle += 360
+        elif angle > 180:
+            angle -= 360
+        return angle
 
     def pidAngleChangeOutput(self, output):
         self.pidAngleChange = output
@@ -83,9 +88,8 @@ class MyRobot(wpilib.IterativeRobot):
         if isClimbing:
             self.robotDrive.mecanumDrive_Cartesian(0, 0, 0, 0)
         else:
-            pass
             # use mecanum function in robotDrive to move motors
-            #self.robotDrive.mecanumDrive_Cartesian(self.joystick1.getX(), self.joystick1.getY(), self.pidAngleChange, angle)
+            self.robotDrive.mecanumDrive_Cartesian(self.joystick1.getX(), self.joystick1.getY(), self.pidAngleChange, angle)
 
 
 

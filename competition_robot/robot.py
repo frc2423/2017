@@ -42,6 +42,14 @@ class MyRobot(wpilib.IterativeRobot):
         self.timePassed = 0
         # to get the time get timer.getMsClock()
 
+
+        # camera light
+        self.relay = wpilib.Relay(0)
+
+
+        # vision code
+        wpilib.CameraServer.launch('vision.py:main')
+
     def pid_source(self):
         return self.gyro.getAngle()
 
@@ -52,6 +60,8 @@ class MyRobot(wpilib.IterativeRobot):
     def teleopInit(self):
         self.pid.enable()
         self.pid.setSetpoint(0)
+
+        self.relay.set(wpilib.Relay.Value.kOn)
 
     def teleopPeriodic(self):
 
@@ -108,6 +118,7 @@ class MyRobot(wpilib.IterativeRobot):
 
     def climb(self):
         if self.joystick1.getRawButton(3):
+            print('climing...')
             self.motorClimber.set(-.9)
             return True
         elif self.joystick1.getRawButton(2):

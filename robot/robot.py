@@ -10,13 +10,14 @@ from networktables import NetworkTables
 from networktables.util import ntproperty
 
 class MyRobot(wpilib.IterativeRobot):
-    
-    climberspeed = ntproperty("/SmartDashboard/climberspeed", 0)
-    align = ntproperty("/SmartDashboard/align", 0)
-
     kNoMode = 0
     kAutonomousMode = 1
     kTeleopMode = 2
+    
+    climberspeed = ntproperty("/SmartDashboard/climberspeed", 0)
+    align = ntproperty("/SmartDashboard/align", 0)
+    switch = ntproperty("/SmartDashboard/switch", kNoMode)
+
 
     def robotInit(self):
         """
@@ -36,12 +37,12 @@ class MyRobot(wpilib.IterativeRobot):
         self.gyro = wpilib.AnalogGyro(0)
         self.angle_current = self.gyro.getAngle() % 360
         self.angle = ntproperty("/SmartDashboard/angle", self.angle_current)
-        self.switch = ntproperty("/SmartDashboard/switch", self.kNoMode)
+        self.climbervelocity = ntproperty("/SmartDashboard/climbervelocity", 0)
        # self.pid = wpilib.PIDController(0.1, 0.1, 0.1, self.gyro.getAngle(), self.robotdrive)
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
-        self.switch = ntproperty("/SmartDashboard/switch", self.kAutonomousMode)
+        self.switch = self.kAutonomousMode
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
@@ -53,7 +54,7 @@ class MyRobot(wpilib.IterativeRobot):
             self.counter = 0
 
     def teleopInit(self):
-        self.switch = ntproperty("/SmartDashboard/switch", self.kTeleopMode)
+        self.switch = self.kTeleopMode
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""

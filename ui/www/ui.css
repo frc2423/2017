@@ -11,10 +11,16 @@ body {
 }
 
 #auto_chooser {
+	height: 250px;
+	width: 180px;
+	background-color: white;
+	border-style: Solid;
+	border-width: 3px;
+	border-color: rgb(150,150,0);
 	position: absolute;
-	left: 40%;
-	top: 50%;
-	color: white;
+	bottom: 5%;
+	left: 43.5%;
+	display: block;
 }
 
 #cam_1 {
@@ -33,6 +39,24 @@ body {
 	position: absolute;
 	top: 5%;
 	right:5%;
+}
+
+#sensors {
+	height: 250px;
+	width: 180px;
+	background-color: white;
+	border-style: Solid;
+	border-width: 3px;
+	border-color: rgb(150,150,0);
+	position: absolute;
+	bottom: 5%;
+	left: 43.5%;
+	display: none;
+}
+
+.auto {
+	height: 30px;
+	width: 30px;
 }
 
 .climb {
@@ -60,10 +84,18 @@ body {
 }
 
 .airship {
-	fill: gray;
+	fill: rgb(152,152,152);
 	position: absolute;
 	left: 8%;
 	bottom: 2%;
+}
+
+.airship_aligning {
+	fill: rgb(105,105,105);
+	position: absolute;
+	left: 8%;
+	bottom: 2%;
+	display: none;
 }
 
 .rope_right{

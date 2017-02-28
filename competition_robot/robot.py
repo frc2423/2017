@@ -71,7 +71,7 @@ class MyRobot(wpilib.IterativeRobot):
 
     @webInterface.listen('align')
     def align(self, angle):
-        self.drive.align(angle)
+        self.drive.faceAngle(angle)
 
     @webInterface.listen('angle_reset')
     def resetAngle(self):

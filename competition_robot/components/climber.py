@@ -1,4 +1,3 @@
-import wpilib
 import config
 import ctre
 
@@ -11,21 +10,19 @@ class Climber:
     DOWN = 2
 
     def __init__(self):
-        self.motor = ctre.CANTalon(config.motorClimberPort)
+        self._motor = ctre.CANTalon(config.motorClimberPort)
 
 
     def climb(self, direction):
         if direction is Climber.UP:
-            self.motor.set(-.9)
+            self._motor.set(-.9)
         elif direction is Climber.DOWN:
-            self.motor.set(.9)
+            self._motor.set(.9)
         else:
-            self.motor.set(0)
+            self._motor.set(0)
 
     def isClimbing(self):
-        return self.motor.get() > 0
+        return self._motor.get() > 0
 
-
-    @property
-    def encVelocity(self):
-        return self.motor.getEncVelocity()
+    def getSpeed(self):
+        return self._motor.getEncVelocity()

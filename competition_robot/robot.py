@@ -5,19 +5,17 @@
 
 import wpilib
 import config
-from networktables.util import ntproperty
-from networktables import NetworkTables
 from components.drive import Drive
 from components.controller import Controller
 from components.climber import Climber
 from components.camera import Camera
-from components.timer import deltaTimer
-from components.web_interface import webInterface
+from components.web_interface import WebInterface
+
+
+
 
 
 class MyRobot(wpilib.IterativeRobot):
-
-    robotMode = ntproperty('/SmartDashboard/switch', config.robotNoMode)
 
     def robotInit(self):
         self.drive = Drive()
@@ -25,55 +23,41 @@ class MyRobot(wpilib.IterativeRobot):
         self.climber = Climber()
         self.camera = Camera()
 
+        self.webInterface = WebInterface()
+        self.webInterface.listen('align', self.align)
+        self.webInterface.listen('angle_reset', self.resetAngle())
 
-    @deltaTimer.restart
+
     def autonomousInit(self):
-        webInterface.send('switch', config.robotAutoMode)
+        self.webInterface.send('switch', config.robotAutoMode)
 
-    @deltaTimer.track
     def autonomousPeriodic(self):
         pass
 
-    @deltaTimer.restart
     def teleopInit(self):
-        webInterface.send('switch', config.robotTeleopMode)
-        self.drive.enablePid()
+        self.webInterface.send('switch', config.robotTeleopMode)
 
-    @deltaTimer.track
     def teleopPeriodic(self):
 
-        # update the desired angle based on the second joystick x value
-        self.updateDesiredAngle()
-
-        self.climber.climb(self.controller.climbDirection)
+        self.climber.climb(self.controller.getClimbDirection())
         if self.climber.isClimbing():
-            self.drive.drive(0, 0, 0, False)
+            self.drive.drive(0, 0, 0)
         else:
             # use mecanum function in robotDrive to move motors
-            self.drive.drive(self.controller.xSpeed, self.controller.ySpeed, self.drive.pidAngleChange, True)
+            self.drive.drive(self.controller.getXSpeed(),
+                             self.controller.getYSpeed(),
+                             self.controller.getTurnRate())
 
 
         # update web interface sensor values
-        webInterface.send('angle', self.drive.angle)
-        webInterface.send('climbervelocity', self.climber.encVelocity)
+        self.webInterface.send('angle', self.drive.getAngle())
+        self.webInterface.send('climbervelocity', self.climber.getSpeed())
+        print('angle: ', self.drive.getAngle())
 
 
-
-    def updateDesiredAngle(self):
-        angleChange = config.maxAngleSpeed * self.controller.turnRate
-
-        if angleChange > 0:
-            self.drive.setJoystickAngleMode(True)
-
-        if self.drive.joystickAngleMode:
-            self.drive.setDesiredAngle(self.drive.gyro.getAngle() + angleChange)
-
-
-    @webInterface.listen('align')
     def align(self, angle):
         self.drive.faceAngle(angle)
 
-    @webInterface.listen('angle_reset')
     def resetAngle(self):
         self.drive.resetAngle()
 

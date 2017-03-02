@@ -4,39 +4,35 @@ from components.climber import Climber
 
 class Controller:
 
+    DEAD_ZONE_MAX = .1
+
     def __init__(self):
         # create joystick
-        self.joystick1 = wpilib.Joystick(config.joy1Port)
-        self.joystick2 = wpilib.Joystick(config.joy2Port)
+        self._joystick1 = wpilib.Joystick(config.joy1Port)
+        self._joystick2 = wpilib.Joystick(config.joy2Port)
 
+    def _deadZone(self, value):
+        return 0 if abs(value) < Controller.DEAD_ZONE_MAX else value
 
-    @property
-    def ySpeed(self):
-        return self.joystick1.getY()
+    def getYSpeed(self):
+        return self._deadZone(self._joystick1.getY())
 
-    @property
-    def xSpeed(self):
-        return self.joystick1.getX()
+    def getXSpeed(self):
+        return self._deadZone(self._joystick1.getX())
 
-    @property
-    def turnRate(self):
-        turnRate = self.joystick2.getX()
-        return 0 if abs(turnRate) < .15 else turnRate
+    def getTurnRate(self):
+        return self._deadZone(self._joystick2.getX())
 
-    @property
-    def climbUpButton(self):
-        return self.joystick1.getRawButton(3)
+    def isClimbUpPressed(self):
+        return self._joystick1.getRawButton(3)
 
-    @property
-    def climbDownButton(self):
-        return self.joystick1.getRawButton(2)
+    def isClimbDownPressed(self):
+        return self._joystick1.getRawButton(2)
 
-
-    @property
-    def climbDirection(self):
-        if self.climbUpButton:
+    def getClimbDirection(self):
+        if self.isClimbUpPressed():
             return Climber.UP
-        elif self.climbDownButton:
+        elif self.isClimbDownPressed():
             return Climber.DOWN
         else:
             return Climber.STOP

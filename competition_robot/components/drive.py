@@ -5,34 +5,26 @@ import ctre
 Gyro = wpilib.ADXRS450_Gyro if config.gyroType is 'ADX' else wpilib.AnalogGyro
 
 
-
-
 class GyroPid:
 
     def __init__(self):
-        self.gyro = Gyro(config.gyroPort)
 
-        def pid_source(self):
-            return self.getNormalizedAngle(self.gyro.getAngle())
+        def pid_source():
+            return self.getNormalizedAngle(self.getAngle())
 
-        def pidAngleChangeOutput(self, output):
-            self.pidAngleChange = output
+        def pidAngleChangeOutput(output):
+            self._turnRate = output
 
-
-        self.pid = wpilib.PIDController(config.kPGyro, config.kIGyro, config.kDGyro, pid_source, pidAngleChangeOutput)
-        self.pid.setInputRange(-180.0, 180.0)
-        self.pid.setOutputRange(-1, 1)
-        self.pid.setAbsoluteTolerance(config.toleranceDegrees)
-        self.pid.setContinuous(True)
-
-        self.desiredAngle = 0
-        self.pidAngleChange = 0
-        self.joystickAngleMode = True
-
+        self._gyro = Gyro(config.gyroPort)
+        self._pid = wpilib.PIDController(config.kPGyro, config.kIGyro, config.kDGyro, pid_source, pidAngleChangeOutput)
+        self._pid.setInputRange(-180.0, 180.0)
+        self._pid.setOutputRange(-1, 1)
+        self._pid.setAbsoluteTolerance(config.toleranceDegrees)
+        self._pid.setContinuous(True)
 
 
     def getAngle(self):
-        return self.gyro.getAngle()
+        return self._gyro.getAngle()
 
 
     def getNormalizedAngle(self, angle):
@@ -45,20 +37,26 @@ class GyroPid:
         return angle
 
     def resetAngle(self):
-        self.pid.disable()
-        self.gyro.reset()
-        self.setDesiredAngle(0)
-        self.pid.enable()
+        enabled = self._pid.isEnable()
+        self._pid.disable()
+        self._gyro.reset()
+        self._pid.setSetpoint(0)
+        if enabled:
+            self._pid.enable()
 
-    def getAngleDifference(self, angle1, angle2):
-        angle1 = self.getNormalizedAngle(angle1)
-        angle2 = self.getNormalizedAngle(angle2)
 
-        diff1 = abs(angle1 - angle2)
-        diff2 = min(angle1, angle2) - max(angle1, angle2) + 360
+    def setTarget(self, angle):
+        self._pid.enable()
+        self._pid.setSetpoint(self.getNormalizedAngle(angle))
 
-        return min(diff1, diff2)
+    def getTarget(self):
+        return None if not self._pid.isEnable() else self._pid.getSetpoint()
 
+    def removeTarget(self):
+        self._pid.disable()
+
+    def getTurnRate(self):
+        return 0 if not self._pid.isEnable() else self._turnRate
 
 
 
@@ -67,47 +65,70 @@ class GyroPid:
 
 class Drive:
 
+    STOP_MODE = 0
+    FACE_ANGLE_MODE = 1
+    DRIVE_NO_TURNING_MODE = 2
+    DRIVE_WITH_TURNING_MODE = 3
 
     def __init__(self):
-        self.motorFR = ctre.CANTalon(config.frMotorPort)
-        self.motorFL = ctre.CANTalon(config.flMotorPort)
-        self.motorBR = ctre.CANTalon(config.brMotorPort)
-        self.motorBL = ctre.CANTalon(config.blMotorPort)
+        self._frMotor = ctre.CANTalon(config.frMotorPort)
+        self._flMotor = ctre.CANTalon(config.flMotorPort)
+        self._brMotor = ctre.CANTalon(config.brMotorPort)
+        self._blMotor = ctre.CANTalon(config.blMotorPort)
 
-        self.motorFR.setInverted(config.invertFrMotor)
-        self.motorFL.setInverted(config.invertFlMotor)
-        self.motorBR.setInverted(config.invertBrMotor)
-        self.motorBL.setInverted(config.invertBlMotor)
+        self._frMotor.setInverted(config.invertFrMotor)
+        self._flMotor.setInverted(config.invertFlMotor)
+        self._brMotor.setInverted(config.invertBrMotor)
+        self._blMotor.setInverted(config.invertBlMotor)
 
         # create robotDrive has things like mecanum drive, arcade drive
-        self.robotDrive = wpilib.RobotDrive(self.motorFL, self.motorBL, self.motorFR, self.motorBR)
+        self._robotDrive = wpilib.RobotDrive(self._flMotor, self._blMotor, self._frMotor, self._brMotor)
 
-        self.gyroPid = GyroPid()
+        self._gyroPid = GyroPid()
+
+        self._driveMode = Drive.DRIVE_NO_TURNING_MODE
+
+    def _setDriveMode(self, mode):
+        if self._driveMode != mode:
+            self._driveMode = mode
+            return True
+        return False
 
 
     def faceAngle(self, angle):
-        self.gyroPid.setTarget(angle)
+        if self._setDriveMode(Drive.FACE_ANGLE_MODE) or angle != self.gyroPid.getTarget():
+            self.gyroPid.setTarget(angle)
+
         self.robotDrive.mecanumDrive_Cartesian(0, 0, self.gyroPid.getTurnRate(), 0)
 
 
     def drive(self, x, y, turnRate):
+
+        # if robot is not moving stop motors
+        if abs(turnRate) == 0 and abs(x) == 0 and abs(y) == 0:
+            if self._setDriveMode(Drive.STOP_MODE):
+                self._gyroPid.removeTarget()
+
+            self._robotDrive.mecanumDrive_Cartesian(0, 0, 0, 0)
+
         # if robot is turning
-        if turnRate > .15:
-            self.gyroPid.removeTarget()
-            self.robotDrive.mecanumDrive_Cartesian(x, y, turnRate, self.gyroPid.getAngle())
+        elif abs(turnRate) > .1:
+            if self._setDriveMode(Drive.DRIVE_WITH_TURNING_MODE):
+                self._gyroPid.removeTarget()
+
+            self._robotDrive.mecanumDrive_Cartesian(x, y, turnRate, self.getAngle())
         # Otherwise keep the robot straight with the pid controller
         else:
-            target = self.gyroPid.getTarget()
-            currentAngle = self.gyroPid.getAngle()
-            if target is None or self.gyroPid.getAngleDifference(target, currentAngle) > 10:
-                self.gyroPid.setTarget(currentAngle)
+            if self._setDriveMode(Drive.DRIVE_NO_TURNING_MODE):
+                self._gyroPid.setTarget(self.getAngle())
 
-            self.robotDrive.mecanumDrive_Cartesian(x, y, self.gyroPid.getTurnRate(), self.gyroPid.getAngle())
+            self._robotDrive.mecanumDrive_Cartesian(x, y, self._gyroPid.getTurnRate(), self.getAngle())
 
 
 
+    def getAngle(self):
+        return self._gyroPid.getAngle()
 
-    @property
-    def angle(self):
-        return self.gyroPid.getAngle()
 
+    def resetAngle(self):
+        self._gyroPid.resetAngle()

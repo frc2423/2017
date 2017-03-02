@@ -103,3 +103,8 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+
+# PyCharm files
+*.idea/
+*.idea/**

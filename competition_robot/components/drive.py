@@ -86,7 +86,7 @@ class Drive:
 
         self._gyroPid = GyroPid()
 
-        self._driveMode = Drive.DRIVE_NO_TURNING_MODE
+        self._driveMode = Drive.STOP_MODE
 
     def _setDriveMode(self, mode):
         if self._driveMode != mode:
@@ -112,7 +112,7 @@ class Drive:
             self._robotDrive.mecanumDrive_Cartesian(0, 0, 0, 0)
 
         # if robot is turning
-        elif abs(turnRate) > .1:
+        elif abs(turnRate) > 0:
             if self._setDriveMode(Drive.DRIVE_WITH_TURNING_MODE):
                 self._gyroPid.removeTarget()
 

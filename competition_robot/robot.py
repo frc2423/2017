@@ -43,11 +43,14 @@ class MyRobot(wpilib.IterativeRobot):
         if self.climber.isClimbing():
             self.drive.drive(0, 0, 0)
         else:
-            # use mecanum function in robotDrive to move motors
-            self.drive.drive(self.controller.getXSpeed(),
-                             self.controller.getYSpeed(),
-                             self.controller.getTurnRate())
-
+            gearDeliveryMode = self.controller.getGearDeliveryMode()
+            if gearDeliveryMode == Controller.NONE:
+                # use mecanum function in robotDrive to move motors
+                self.drive.drive(self.controller.getXSpeed(),
+                                 self.controller.getYSpeed(),
+                                 self.controller.getTurnRate())
+            else:
+                self.drive.gearDeliveryDrive()
 
         # update web interface sensor values
         self.webInterface.send('angle', self.drive.getAngle())

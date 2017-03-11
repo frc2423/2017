@@ -1,1 +1,1 @@
-from config.practice import *
+from config.competition import *

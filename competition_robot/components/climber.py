@@ -11,13 +11,16 @@ class Climber:
 
     def __init__(self):
         self._motor = ctre.CANTalon(config.motorClimberPort)
+        self._motor2 = ctre.CANTalon(1)
+        self._motor2.changeControlMode(ctre.CANTalon.ControlMode.Follower)
+        self._motor2.set(self._motor.getDeviceID())
 
 
     def climb(self, direction):
         if direction is Climber.UP:
             self._motor.set(-.9)
         elif direction is Climber.DOWN:
-            self._motor.set(.9)
+            self._motor.set(0)
         else:
             self._motor.set(0)
 

@@ -19,7 +19,7 @@ invertBrMotor = True
 invertBlMotor = False
 
 # ADX or Analog
-gyroType = 'Analog'
+gyroType = 'ADX'
 gyroPort = 0
 relayPort = 0
 
@@ -28,8 +28,7 @@ kPGyro = .01
 kIGyro = 0
 kDGyro = 0
 
-
-
 robotNoMode = 0
 robotAutoMode = 1
 robotTeleopMode = 2
+robotDisabledMode = 3

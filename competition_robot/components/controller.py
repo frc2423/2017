@@ -4,8 +4,6 @@ from components.climber import Climber
 
 class Controller:
 
-    DEAD_ZONE_MAX = .1
-
     LEFT = 0
     CENTER = 1
     RIGHT = 2
@@ -17,26 +15,41 @@ class Controller:
         self._joystick2 = wpilib.Joystick(config.joy2Port)
         self._gearDeliveryMode = Controller.NONE
 
-    def _deadZone(self, value):
-        return 0 if abs(value) < Controller.DEAD_ZONE_MAX else value
+    def _deadZone(self, value, deadZone):
+        return 0 if abs(value) < deadZone else value
 
     def getYSpeed(self):
-        return self._deadZone(self._joystick1.getY())
+        return self._deadZone(self._joystick1.getY(), .1)
 
     def getXSpeed(self):
-        return self._deadZone(self._joystick1.getX())
+        return self._deadZone(self._joystick1.getX(), .2)
 
     def getTurnRate(self):
-        return self._deadZone(self._joystick2.getX())
+        return self._deadZone(self._joystick2.getX(), .1)
 
     def isClimbUpPressed(self):
-        return self._joystick2.getRawButton(3)
+        return self._joystick1.getRawButton(3)
 
     def isClimbDownPressed(self):
         return self._joystick2.getRawButton(2)
 
+    def isAutoTargetingPressed(self):
+        return False
+        #return self._joystick1.getTrigger()
+        
+    def isAbsoluteAnglePressed(self):
+        return not self._joystick1.getTrigger()
+
+
+    def isDumperUpPressed(self):
+        return self._joystick2.getRawButton(5)
+
+    def isDumperDownPressed(self):
+        return self._joystick2.getRawButton(4)
 
     def getGearDeliveryMode(self):
+    
+        return Controller.NONE
         if self._joystick1.getRawButton(2):
             self._gearDeliveryMode = Controller.NONE
         elif self._joystick1.getRawButton(4):
@@ -49,6 +62,8 @@ class Controller:
         return self._gearDeliveryMode
 
 
+    def setGearDeliveryMode(self, mode):
+        self._gearDeliveryMode = mode
 
 
     def getClimbDirection(self):
@@ -58,3 +73,7 @@ class Controller:
             return Climber.DOWN
         else:
             return Climber.STOP
+            
+    def isReversePressed(self):
+      return False
+      

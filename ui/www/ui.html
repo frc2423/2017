@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UI Jam</title>
+	<link rel="stylesheet" href="ui.css"/>
+	<script src="/scripts/jquery-2.2.2.min.js"></script>
+	<script src="/networktables/networktables.js"></script>
+</head>
+<body>
+	
+	<div>
+	<img height="273" width="300" id="logo" src="/assets/logo_alt2.png"/>
+	</div>
+	
+	<div>
+		<svg height="300" width="400" id="cam_1">
+			<img height="300" width="400" id="cam_1" src="http://roborio-2423-frc.local:1183/stream.mjpg"/>
+		</svg>
+	</div>
+	
+	<div>
+		<svg height="300" width="400" id="cam_2">
+			<img height="300" width="400" id="cam_2" src="http://roborio-2423-frc.local:1182/stream.mjpg"/>
+		</svg>
+	</div>
+	
+
+	<svg id="auto_chooser">
+		<text x="7%" y="10%" font-size="30" text-decoration="underline" fill="black">Autonomous</text>
+		<foreignObject x="75%" y="20%">
+			<form>
+				<input type="radio" name="auto" class="auto" value="0" checked />
+				<input type="radio" name="auto" class="auto" value="1"/>
+				<input type="radio" name="auto" class="auto" value="2"/>
+            <input type="radio" name="auto" class="auto" value="3"/>
+            <input type="radio" name="auto" class="auto" value="4"/>
+			</form>
+		</foreignObject>
+		<text x="8%" y="29%" font-size="18" fill="black">Do Nothing</text>
+		<text x="8%" y="44%" font-size="18" fill="black">Drive straight</text>
+		<text x="8%" y="59%" font-size="18" fill="black">Load Gear Mid</text>
+      <text x="8%" y="74%" font-size="18" fill="black">Load Gear right</text>
+      <text x="8%" y="89%" font-size="18" fill="black">Load Gear Left</text>
+	</svg>
+
+	<svg id="sensors">
+		<text x="23%" y="10%" font-size="30" text-decoration="underline" fill="black">Sensors</text>
+		<text x="12%" y="23%" font-size="20" fill="black">Angle:</text>
+		<text x="55%" y="23%" font-size="20" fill="black" id="angle"/>
+		<text x="7%" y="43%" font-size="20" fill="black">Encoder:</text>
+		<text x="65%" y="43%" font-size="20" fill="black" id="encoder"/>
+		<text x="23%" Y="80%" font-size="20" fill="black">Reset Angle</text>
+		<circle cx="50%" cy="65%" r="20" fill="red" stroke="black" id="angle_reset"/>
+	</svg>
+	
+	<div>
+		<input type="button" name="ropel" class="rope_left"/>
+		<input type="button" name="roper" class="rope_right"/>
+		<input type="button" name="ropet" class="rope_top"/>
+		<input type="button" name="ropeb" class="rope_bottom"/>
+	</div>
+	
+</body>
+<script src="ui.js"></script>
+</html>

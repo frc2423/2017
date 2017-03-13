@@ -1,0 +1,165 @@
+body {
+	background-image: url("assets/background_alt.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#logo {
+	position: absolute;
+	left: 40%;
+	top: 10%;
+}
+
+#auto_chooser {
+	height: 250px;
+	width: 180px;
+	background-color: white;
+	border-style: Solid;
+	border-width: 3px;
+	border-color: rgb(150,150,0);
+	position: absolute;
+	bottom: 5%;
+	left: 43.5%;
+	display: block;
+}
+
+#cam_1 {
+	border-style: solid;
+	border-width: 4px;
+	border-color: rgb(150,150,0);
+	position: absolute;
+	top: 5%;
+	left: 0%;
+}
+
+#cam_2 {
+	border-style: solid;
+	border-width: 4px;
+	border-color: rgb(150,150,0);
+	position: absolute;
+	top: 5%;
+	right: 0%;
+}
+
+#sensors {
+	height: 250px;
+	width: 180px;
+	background-color: white;
+	border-style: Solid;
+	border-width: 3px;
+	border-color: rgb(150,150,0);
+	position: absolute;
+	bottom: 0%;
+	left: 50%;
+	margin-right: -50%;
+	display: none;
+}
+
+.auto {
+	height: 30px;
+	width: 30px;
+}
+
+.rope_right{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 8.5%;
+	left: 22%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_left{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 8.5%;
+	left: 12%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_top{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 13%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_bottom{
+	background-image: url("assets/button_sp.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 1%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_right.pressed{
+	background-image: url("assets/button_pressed_sp_2.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 9.5%;
+	left: 20%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_left.pressed{
+	background-image: url("assets/button_pressed_sp_2.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 9.5%;
+	left: 13.5%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_top.pressed{
+	background-image: url("assets/button_pressed_sp_2.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 13%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
+
+.rope_bottom.pressed{
+	background-image: url("assets/button_pressed_sp_2.png");
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 1%;
+	left: 17%;
+	height: 50px;
+	width: 50px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	-webkit-appearance: none;
+}
